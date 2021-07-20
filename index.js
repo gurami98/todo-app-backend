@@ -47,14 +47,14 @@ app.put('/todos/:id', async (req, res, next) => {
 })
 
 
-app.delete('/todos/', async (req, res, next) => {
-	try {
-		await todoModel.deleteMany({_id: {$in: []}})
-		return success(res, "all todos deleted!")
-	} catch (err) {
-		next({ status: 400, message: "failed to delete todo" })
-	}
-})
+// app.delete('/todos/', async (req, res, next) => {
+// 	try {
+// 		await todoModel.deleteMany({_id: {$in: []}})
+// 		return success(res, "all todos deleted!")
+// 	} catch (err) {
+// 		next({ status: 400, message: "failed to delete todo" })
+// 	}
+// })
 
 app.delete('/todos/:id', async (req, res, next) => {
 	try {
