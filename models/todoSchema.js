@@ -24,9 +24,6 @@ const todoSchema = new mongoose.Schema({
 	done: {
 		type: Boolean,
 		required: true
-	},
-	visible: {
-		type: Boolean
 	}
 })
 
