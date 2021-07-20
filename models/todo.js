@@ -4,6 +4,29 @@ const todoSchema = new mongoose.Schema({
 		type: String,
 		unique: true,
 		required: true
+	},
+	taskType: {
+		type: String,
+		required: true
+	},
+	dueDate: {
+		type: String,
+		required: true
+	},
+	timeAdded: {
+		type: String,
+		required: true
+	},
+	priority: {
+		type: Number,
+		required: true
+	},
+	done: {
+		type: Boolean,
+		required: true
+	},
+	visible: {
+		type: Boolean
 	}
 })
 
