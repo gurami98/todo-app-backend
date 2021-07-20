@@ -24,6 +24,8 @@ mongoose.connect(process.env.DB_URL, {
 	keepAlive: true,
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
+	useFindAndModify: false,
+	useCreateIndex: true
 }, () => {
 	console.log("Connected to db!");
 	app.listen(3001, () => console.log("Server Up and running"));
