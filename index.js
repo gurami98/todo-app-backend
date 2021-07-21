@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const router = require('./routes/todoRoutes');
+const todo = require('./routes/todoRoutes');
 const bodyParser = require("body-parser")
 const dotenv = require('dotenv');
 const mongoose = require("mongoose");
@@ -11,7 +11,7 @@ dotenv.config();
 app.use(bodyParser.json())
 app.use(cors())
 
-app.use('/todo', router)
+app.use('/todo', todo)
 
 app.use((err, req, res, next) => {
 	return res.status(err.status || 400).json({
