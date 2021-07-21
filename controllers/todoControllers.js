@@ -24,7 +24,7 @@ const addItem = async (req, res, next) => {
 
 const updateItem = async (req, res, next) => {
 	try {
-		const todo = await todoModel.findByIdAndUpdate(req.params.id, req.body, {new: true})
+		const todo = await todoModel.findByIdAndUpdate(req.params.id, req.body)
 		return success(res, todo)
 	} catch (err) {
 		next({ status: 400, message: "failed to update todo" })
