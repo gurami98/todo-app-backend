@@ -19,7 +19,7 @@ const addItem = async (req, res) => {
 		const todo = await todoModel.create(req.body)
 		return response(res, 200, todo)
 	} catch (err) {
-		return response(res, 400, { message: "This item already exists!" })
+		return response(res, 400, { message: "This todo text already exists!" })
 	}
 }
 
