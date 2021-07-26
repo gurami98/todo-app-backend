@@ -32,6 +32,15 @@ const updateItem = async (req, res) => {
 	}
 }
 
+const updateEveryItem = async (req, res) => {
+	try {
+		const todos = await todoModel.updateMany({}, req.body)
+		return response(res,200, todos)
+	}catch (err){
+		return response(res, 400, { message: "failed to update all todos" })
+	}
+}
+
 const deleteItem = async (req, res) => {
 	try {
 		await todoModel.findByIdAndRemove(req.params.id)
@@ -41,4 +50,13 @@ const deleteItem = async (req, res) => {
 	}
 }
 
-module.exports = {getAllItems, addItem, updateItem, deleteItem}
+const deleteSelectedItems = async (req, res) => {
+	try {
+		await todoModel.deleteMany({done: true})
+		return response(res, 200,"selected todos deleted")
+	} catch (err) {
+		return response(res, 400, { message: "failed to delete selected todos" })
+	}
+}
+
+module.exports = {getAllItems, addItem, updateItem, updateEveryItem, deleteItem, deleteSelectedItems}
