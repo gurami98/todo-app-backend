@@ -14,7 +14,6 @@ const getAllItems = async (req, res) => {
 }
 
 const addItem = async (req, res) => {
-	console.log(req.body)
 	try {
 		const todo = await todoModel.create(req.body)
 		return response(res, 200, todo)
