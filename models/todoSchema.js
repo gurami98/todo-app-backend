@@ -5,7 +5,7 @@ const todoSchema = new mongoose.Schema({
 		unique: true,
 		required: true
 	},
-	taskType: {
+	taskCategory: {
 		type: String,
 		required: true
 	},

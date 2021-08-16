@@ -10,10 +10,10 @@ const registerUser = async (req, res) => {
 	// Our register logic starts here
 	try {
 		// Get user input
-		const {email, password} = req.body;
+		const {username, email, password} = req.body;
 
 		// Validate user input
-		if (!(email && password)) {
+		if (!(username && email && password)) {
 			res.status(400).send("All input is required");
 		}
 
@@ -30,6 +30,7 @@ const registerUser = async (req, res) => {
 
 		// Create user in our database
 		const user = await userModel.create({
+			username,
 			email: email.toLowerCase(), // sanitize: convert email to lowercase
 			password: encryptedPassword,
 		});
@@ -38,7 +39,7 @@ const registerUser = async (req, res) => {
 		// save user token
 		user.token = jwt.sign(
 			{user_id: user._id, email},
-			process.env.TOKEN_KEY,
+			process.env.ACCESS_TOKEN_SECRET,
 			{
 				expiresIn: "2h",
 			}
@@ -56,21 +57,21 @@ const loginUser = async (req, res) => {
 	// Our login logic starts here
 	try {
 		// Get user input
-		const {email, password} = req.body;
+		const {username, password} = req.body;
 
 		// Validate user input
-		if (!(email && password)) {
+		if (!(username && password)) {
 			res.status(400).send("All input is required");
 		}
 		// Validate if user exist in our database
-		const user = await userModel.findOne({email});
+		const user = await userModel.findOne({username});
 
 		if (user && (await bcrypt.compare(password, user.password))) {
 			// Create token
 			// save user token
 			user.token = jwt.sign(
-				{user_id: user._id, email},
-				process.env.TOKEN_KEY,
+				{user_id: user._id, username},
+				process.env.ACCESS_TOKEN_SECRET,
 				{
 					expiresIn: "2h",
 				}
