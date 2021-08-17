@@ -38,12 +38,14 @@ const registerUser = async (req, res) => {
 		// Create token
 		// save user token
 		user.token = jwt.sign(
-			{user_id: user._id, email},
+			{user_id: user._id, username},
 			process.env.ACCESS_TOKEN_SECRET,
 			{
 				expiresIn: "2h",
 			}
 		);
+		// Set-Cookie: <user-token>=<user.token>
+		res.setHeader('Set-Cookie', `user-token=${user.token}; HttpOnly`);
 
 		// return new user
 		res.status(201).json(user);
@@ -76,7 +78,7 @@ const loginUser = async (req, res) => {
 					expiresIn: "2h",
 				}
 			);
-
+			res.setHeader('Set-Cookie', `user-token=${user.token}; HttpOnly`);
 			// user
 			res.status(200).json(user);
 		}
