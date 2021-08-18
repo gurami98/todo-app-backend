@@ -14,15 +14,16 @@ const registerUser = async (req, res) => {
 
 		// Validate user input
 		if (!(username && email && password)) {
-			res.status(400).send("All input is required");
+			return response(res, 400, {message: 'All input is required'})
 		}
 
 		// check if user already exist
 		// Validate if user exist in our database
-		const oldUser = await userModel.findOne({email});
+		const oldUserWithUsername = await userModel.findOne({username});
+		const oldUserWithEmail = await userModel.findOne({email});
 
-		if (oldUser) {
-			return res.status(409).send("User Already Exist. Please Login");
+		if (oldUserWithUsername || oldUserWithEmail) {
+			return response(res, 409, {message: 'User Already Exist. Please Login'})
 		}
 
 		//Encrypt user password
@@ -37,18 +38,16 @@ const registerUser = async (req, res) => {
 
 		// Create token
 		// save user token
-		user.token = jwt.sign(
+		const token = jwt.sign(
 			{user_id: user._id, username},
 			process.env.ACCESS_TOKEN_SECRET,
 			{
-				expiresIn: "2h",
+				expiresIn: "15m",
 			}
 		);
-		// Set-Cookie: <user-token>=<user.token>
-		res.setHeader('Set-Cookie', `user-token=${user.token}; HttpOnly`);
 
-		// return new user
-		res.status(201).json(user);
+		user.token = token
+		return res.send({user, token})
 	} catch (err) {
 		return response(res, 400, {message: err.message})
 	}
@@ -63,7 +62,7 @@ const loginUser = async (req, res) => {
 
 		// Validate user input
 		if (!(username && password)) {
-			res.status(400).send("All input is required");
+			return response(res, 400, {message: 'All input is required'})
 		}
 		// Validate if user exist in our database
 		const user = await userModel.findOne({username});
@@ -71,18 +70,17 @@ const loginUser = async (req, res) => {
 		if (user && (await bcrypt.compare(password, user.password))) {
 			// Create token
 			// save user token
-			user.token = jwt.sign(
+			const token = jwt.sign(
 				{user_id: user._id, username},
 				process.env.ACCESS_TOKEN_SECRET,
 				{
-					expiresIn: "2h",
+					expiresIn: "15m",
 				}
 			);
-			res.setHeader('Set-Cookie', `user-token=${user.token}; HttpOnly`);
-			// user
-			res.status(200).json(user);
+			user.token = token
+			res.send({user, token})
 		}
-		res.status(400).send("Invalid Credentials");
+		return response(res, 400, {message: 'Invalid Credentials'})
 	} catch (err) {
 		return response(res, 400, {message: err.message})
 	}

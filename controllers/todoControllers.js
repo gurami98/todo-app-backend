@@ -13,6 +13,16 @@ const getAllItems = async (req, res) => {
 	}
 }
 
+const getUserItems = async (req, res) => {
+	try {
+		let todos = await todoModel.find({})
+		todos = todos.filter(todo => todo.username === req.user.username)
+		return response(res, 200, todos)
+	} catch (err) {
+		return response(res, 400, {message: "failed to get todos"})
+	}
+}
+
 const addItem = async (req, res) => {
 	try {
 		const todo = await todoModel.create(req.body)
@@ -58,4 +68,4 @@ const deleteSelectedItems = async (req, res) => {
 	}
 }
 
-module.exports = {getAllItems, addItem, updateItem, updateEveryItem, deleteItem, deleteSelectedItems}
+module.exports = {getAllItems, getUserItems, addItem, updateItem, updateEveryItem, deleteItem, deleteSelectedItems}
