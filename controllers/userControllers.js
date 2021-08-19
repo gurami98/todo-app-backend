@@ -39,7 +39,7 @@ const registerUser = async (req, res) => {
 		// Create token
 		// save user token
 		const token = jwt.sign(
-			{user_id: user._id, username},
+			{user_id: user._id, username, email, password},
 			process.env.ACCESS_TOKEN_SECRET,
 			{
 				expiresIn: "15m",
@@ -47,7 +47,7 @@ const registerUser = async (req, res) => {
 		);
 
 		user.token = token
-		return res.send({user, token})
+		return res.send(token)
 	} catch (err) {
 		return response(res, 400, {message: err.message})
 	}
@@ -78,7 +78,7 @@ const loginUser = async (req, res) => {
 				}
 			);
 			user.token = token
-			res.send({user, token})
+			res.send(token)
 		}
 		return response(res, 400, {message: 'Invalid Credentials'})
 	} catch (err) {
