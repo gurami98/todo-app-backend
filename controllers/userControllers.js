@@ -1,5 +1,5 @@
-const userModel = require("../models/userSchema");
-const jwt = require("jsonwebtoken");
+const userModel = require("../models/userSchema")
+const jwt = require("jsonwebtoken")
 const bcrypt = require('bcryptjs')
 
 const response = (res, code, payload) => {
@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
 	// Our register logic starts here
 	try {
 		// Get user input
-		const {username, email, password} = req.body;
+		const {username, email, password} = req.body
 
 		// Validate user input
 		if (!(username && email && password)) {
@@ -19,22 +19,22 @@ const registerUser = async (req, res) => {
 
 		// check if user already exist
 		// Validate if user exist in our database
-		const oldUserWithUsername = await userModel.findOne({username});
-		const oldUserWithEmail = await userModel.findOne({email});
+		const oldUserWithUsername = await userModel.findOne({username})
+		const oldUserWithEmail = await userModel.findOne({email})
 
 		if (oldUserWithUsername || oldUserWithEmail) {
 			return response(res, 409, {message: 'User Already Exist. Please Login'})
 		}
 
 		//Encrypt user password
-		let encryptedPassword = await bcrypt.hash(password, 10);
+		let encryptedPassword = await bcrypt.hash(password, 10)
 
 		// Create user in our database
 		const user = await userModel.create({
 			username,
 			email: email.toLowerCase(), // sanitize: convert email to lowercase
 			password: encryptedPassword,
-		});
+		})
 
 		// Create token
 		// save user token
@@ -44,7 +44,7 @@ const registerUser = async (req, res) => {
 			{
 				expiresIn: "15m",
 			}
-		);
+		)
 
 		user.token = token
 		return res.send(token)
@@ -58,25 +58,25 @@ const loginUser = async (req, res) => {
 	// Our login logic starts here
 	try {
 		// Get user input
-		const {username, password} = req.body;
+		const {username, password} = req.body
 
 		// Validate user input
 		if (!(username && password)) {
 			return response(res, 400, {message: 'All input is required'})
 		}
 		// Validate if user exist in our database
-		const user = await userModel.findOne({username});
+		const user = await userModel.findOne({username})
 
 		if (user && (await bcrypt.compare(password, user.password))) {
 			// Create token
 			// save user token
 			const token = jwt.sign(
-				{user_id: user._id, username},
+				{user_id: user._id, username, email: user.email, password},
 				process.env.ACCESS_TOKEN_SECRET,
 				{
 					expiresIn: "15m",
 				}
-			);
+			)
 			user.token = token
 			res.send(token)
 		}
@@ -87,7 +87,7 @@ const loginUser = async (req, res) => {
 }
 
 const welcomeUser = async (req, res) => {
-	res.status(200).send("Welcome 🙌 ");
+	res.status(200).send("Welcome 🙌 ")
 }
 
 module.exports = {registerUser, loginUser, welcomeUser}

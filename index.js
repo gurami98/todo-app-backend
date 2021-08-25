@@ -6,7 +6,7 @@ const dotenv = require('dotenv')
 const mongoose = require("mongoose")
 const cors = require('cors')
 
-dotenv.config();
+dotenv.config()
 
 app.use(express.json())
 app.use(cors())
@@ -21,8 +21,8 @@ mongoose.connect(process.env.DB_URL, {
 	useFindAndModify: false,
 	useCreateIndex: true
 }, () => {
-	console.log("Connected to db!");
-	app.listen(3001, () => console.log("Server Up and running"));
+	console.log("Connected to db!")
+	app.listen(3001, () => console.log("Server Up and running"))
 });
 
 
