@@ -87,7 +87,8 @@ const loginUser = async (req, res) => {
 }
 
 const welcomeUser = async (req, res) => {
-	res.status(200).send("Welcome 🙌 ")
+	const {username} = req.body
+	res.status(200).send(username)
 }
 
 module.exports = {registerUser, loginUser, welcomeUser}
