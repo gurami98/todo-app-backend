@@ -7,7 +7,7 @@ const response = (res, code, payload) => {
 const getAllItems = async (req, res) => {
 	try {
 		let todos = await todoModel.find({})
-		todos = todos.filter(todo => todo.user === req.params.user)
+		todos = todos.filter(todo => todo.user === req.user.username)
 		return response(res, 200, todos)
 	} catch (err) {
 		return response(res, 400, {message: "failed to get todos"})
