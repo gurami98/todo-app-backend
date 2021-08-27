@@ -24,6 +24,10 @@ const todoSchema = new mongoose.Schema({
 	done: {
 		type: Boolean,
 		required: true
+	},
+	user:{
+		type: String,
+		required: true
 	}
 })
 
