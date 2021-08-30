@@ -5,7 +5,7 @@ const auth = require('../middleware/auth')
 
 const {getAllItems, addItem, updateItem, updateEveryItem, deleteItem, deleteSelectedItems} = controllers
 
-router.get('/get-all/:token', auth, getAllItems)
+router.get('/get-all/', auth, getAllItems)
 
 router.post('/add', addItem)
 
