@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const todo = require('./routes/todoRoutes')
 const user = require('./routes/userRoutes')
+const category = require('./routes/categoryRoutes')
 const dotenv = require('dotenv')
 const mongoose = require("mongoose")
 const cors = require('cors')
@@ -13,6 +14,7 @@ app.use(cors())
 
 app.use('/todo', todo)
 app.use('/user', user)
+app.use('/category', category)
 
 mongoose.connect(process.env.DB_URL, {
 	keepAlive: true,
