@@ -87,7 +87,7 @@ const loginUser = async (req, res) => {
 }
 
 const welcomeUser = async (req, res) => {
-	const {username} = req.body
+	const {username} = req.user
 	res.status(200).send(username)
 }
 

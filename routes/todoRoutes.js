@@ -3,12 +3,9 @@ const controllers = require('../controllers/todoControllers')
 const router = express.Router()
 const auth = require('../middleware/auth')
 
+const {getAllItems, addItem, updateItem, updateEveryItem, deleteItem, deleteSelectedItems} = controllers
 
-const {getAllItems, addItem, updateItem, updateEveryItem, deleteItem, deleteSelectedItems, getUserItems} = controllers
-
-router.get('/get-all', getAllItems)
-
-router.get('/get-user-todos', auth, getUserItems)
+router.get('/get-all/', auth, getAllItems)
 
 router.post('/add', addItem)
 

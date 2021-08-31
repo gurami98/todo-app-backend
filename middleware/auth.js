@@ -6,7 +6,7 @@ const response = (res, code, payload) => {
 }
 
 const verifyToken = (req, res, next) => {
-	const token = req.body.token || req.query.token || req.headers["x-access-token"]
+	const token = req.body.token || req.query.token || req.params.token || req.headers["x-access-token"]
 	if (!token) {
 		return response(res,403, {message: 'A token is required for authentication'})
 	}
