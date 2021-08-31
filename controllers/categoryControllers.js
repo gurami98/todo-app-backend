@@ -7,7 +7,6 @@ const response = (res, code, payload) => {
 const getAllCategories = async (req, res) => {
     try {
         const categories = await categoryModel.find({user: req.user.username})
-        console.log(categories)
         return response(res, 200, categories)
     } catch (e) {
         return response(res, 400, {message: "failed to get categories"})

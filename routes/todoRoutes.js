@@ -9,11 +9,11 @@ router.get('/get-all/', auth, getAllItems)
 
 router.post('/add', addItem)
 
-router.put('/update-item/all', updateEveryItem)
+router.put('/update-item/all', auth, updateEveryItem)
 
 router.put('/update-item/:id', updateItem)
 
-router.delete('/delete-item/selected', deleteSelectedItems)
+router.delete('/delete-item/selected', auth, deleteSelectedItems)
 
 router.delete('/delete-item/:id', deleteItem)
 
