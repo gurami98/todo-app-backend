@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {Schema} = require("mongoose");
 const todoSchema = new mongoose.Schema({
 	text: {
 		type: String,
@@ -25,10 +26,7 @@ const todoSchema = new mongoose.Schema({
 		type: Boolean,
 		required: true
 	},
-	user:{
-		type: String,
-		required: true
-	}
+	user: {type: Schema.Types.String, ref: 'user'}
 })
 
 const todoModel = mongoose.model("todoItem", todoSchema)
