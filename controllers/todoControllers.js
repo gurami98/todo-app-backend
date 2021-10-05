@@ -34,7 +34,7 @@ const updateItem = async (req, res) => {
 
 const updateEveryItem = async (req, res) => {
 	try {
-		const todos = await todoModel.updateMany({}, req.body)
+		const todos = await todoModel.updateMany({user: req.user.username}, req.body.status)
 		return response(res, 200, todos)
 	} catch (err) {
 		return response(res, 400, {message: "failed to update all todos"})
@@ -52,7 +52,7 @@ const deleteItem = async (req, res) => {
 
 const deleteSelectedItems = async (req, res) => {
 	try {
-		await todoModel.deleteMany({done: true})
+		await todoModel.deleteMany({user: req.user.username, done: true})
 		return response(res, 200, "selected todos deleted")
 	} catch (err) {
 		return response(res, 400, {message: "failed to delete selected todos"})
