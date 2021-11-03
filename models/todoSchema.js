@@ -3,7 +3,7 @@ const {Schema} = require("mongoose");
 const todoSchema = new mongoose.Schema({
 	text: {
 		type: String,
-		unique: true,
+		// unique: true,
 		required: true
 	},
 	taskCategory: {
