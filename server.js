@@ -6,6 +6,7 @@ const category = require('./routes/categoryRoutes')
 const dotenv = require('dotenv')
 const mongoose = require("mongoose")
 const cors = require('cors')
+const port = process.env.PORT || 3001
 
 dotenv.config()
 
@@ -24,7 +25,7 @@ mongoose.connect(process.env.DB_URL, {
 	useCreateIndex: true
 }, () => {
 	console.log("Connected to db!")
-	app.listen(process.env.PORT || 3001, () => console.log("Server Up and running"))
+	app.listen(port, () => console.log(`Server Up and running on port ${port}`))
 });
 
 
