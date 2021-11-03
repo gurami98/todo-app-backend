@@ -18,11 +18,11 @@ app.use('/user', user)
 app.use('/category', category)
 
 mongoose.connect(process.env.DB_URL, {
-	keepAlive: true,
+	// keepAlive: true,
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
-	useFindAndModify: false,
-	useCreateIndex: true
+	// useFindAndModify: false,
+	// useCreateIndex: true
 }, () => {
 	console.log("Connected to db!")
 	app.listen(port, () => console.log(`Server Up and running on port ${port}`))
